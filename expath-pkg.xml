@@ -1,0 +1,8 @@
+<package xmlns="http://expath.org/ns/pkg" name="http://xqilla.sourceforge.net/Functions"
+    abbrev="json" version="0.1" spec="1.0">
+    <title>JSON Parser for XQuery</title>
+    <xquery>
+        <namespace>http://xqilla.sourceforge.net/Functions</namespace>
+        <file>XQillaModule.xq</file>
+    </xquery>
+</package>

@@ -1,0 +1,9 @@
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <author>John Snelson</author>
+    <website>http://john.snelson.org.uk/parsing-json-into-xquery</website>
+    <license>Apache License, Version 2.0</license>
+    <copyright>true</copyright>
+    <description>An XQuery module with functions for parsing and serializing JSON.</description>
+    <type>library</type>
+    <status>stable</status>
+</meta>
