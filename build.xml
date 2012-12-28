@@ -3,6 +3,6 @@
     <property name="build.dir" value="build"/>
     <target name="xar">
         <mkdir dir="${build.dir}"/>
-        <zip basedir="." destfile="${build.dir}/json-0.1.xar" excludes="${build.dir}/"/>
+        <zip basedir="." destfile="${build.dir}/xqjson-0.1.xar" excludes="${build.dir}/"/>
     </target>
 </project>
