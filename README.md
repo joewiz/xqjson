@@ -26,10 +26,9 @@ Then install the package via the eXist-db Package Manager.
 
 Note that the original module used "xqilla" as the module's namespace prefix, but this package uses "json" instead.
 
-### json:parse-json($xml as xs:string?) as element()?
+### json:parse-json($json as xs:string?) as element()?
 
-This function displays the contents of a zip file.  Simply provide a path to where the zip file is 
-stored in the database.
+This function translates a JSON string into an XML representation.  
 
     json:parse-json('{
         "firstName": "John",
@@ -65,4 +64,4 @@ This will return the following result:
 
 ### json:serialize-json($json-xml as element()?) as xs:string?
 
-This function performs the inverse of the above json:parse-json().
+This function reverses the above process.
