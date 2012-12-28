@@ -7,7 +7,7 @@ support it.
 
 ## Requirements
 
-The [original module](http://xqilla.hg.sourceforge.net/hgweb/xqilla/xqilla/raw-file/6458513c94c0/src/functions/XQillaModule.xq)
+The [original module](http://xqilla.hg.sourceforge.net/hgweb/xqilla/xqilla/file/6458513c94c0/src/functions/XQillaModule.xq)
 was designed for use with [XQilla](http://xqilla.sourceforge.net/HomePage), but since it is 
 written in pure XQuery 3.0, it is compatible with other XQuery 3.0 processors.  To build this into an EXPath 
 Package, you will need [ant](http://ant.apache.org/).  To install the package, you need an implementation of 
