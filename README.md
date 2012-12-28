@@ -3,7 +3,7 @@
 An XQuery module for parsing and serializing JSON, 
 [written and documented by John Snelson](http://john.snelson.org.uk/parsing-json-into-xquery), packaged in the 
 [EXPath Package format](http://www.expath.org/spec/pkg) for convenient installation in XQuery implementation that 
-support it.
+support it. Minor bug-fixes have been added to support empty arrays and empty objects as allowed by the JSON specification.
 
 ## Requirements
 
@@ -17,21 +17,21 @@ XQuery that supports the EXPath Package system.
 
 This package has been tested with eXist 2.0RC (it is not compatible with eXist-db 1.x).  To install in eXist-db,
 clone this repository and run ant, which will construct an EXPath Archive (.xar) file in the project's build folder.
-Then install the package via the eXist-db Package Manager.
+Then install the package via the eXist-db Package Manager, or place it in eXist-db's 'autodeploy' folder.
 
 ## Usage
 
 ### Import the module
 
-    import module namespace json="http://xqilla.sourceforge.net/Functions";
+    import module namespace xqjson="http://xqilla.sourceforge.net/Functions";
 
-Note that the original module used "xqilla" as the module's namespace prefix, but this package uses "json" instead.
+Note that the original module used "xqilla" as the module's namespace prefix, but this package uses "xqjson" instead.
 
-### json:parse-json($json as xs:string?) as element()?
+### xqjson:parse-json($json as xs:string?) as element()?
 
 This function translates a JSON string into an XML representation.  
 
-    json:parse-json('{
+    xqjson:xqparse-json('{
         "firstName": "John",
         "lastName": "Smith",
         "address": {
@@ -63,6 +63,6 @@ This will return the following result:
         </pair>
     </json>
 
-### json:serialize-json($json-xml as element()?) as xs:string?
+### xqjson:serialize-json($json-xml as element()?) as xs:string?
 
 This function reverses the above process.
