@@ -17,6 +17,10 @@ xquery version "3.0";
  : limitations under the License.
  :)
 
+(:
+    20121227 Adam Retter patched parseArray to support empty arrays
+:)
+
 module namespace xqilla="http://xqilla.sourceforge.net/Functions";
 
 (:----------------------------------------------------------------------------------------------------:)
@@ -125,31 +129,37 @@ declare %private function xqilla:parseObject($tokens as element(token)*)
 
 declare %private function xqilla:parseArray($tokens as element(token)*)
 {
-  let $res := xqilla:parseValue($tokens)
-  let $tokens := remove($res,1)
-  let $item := element item {
-    $res[1]/@*,
-    $res[1]/node()
-  }
-  let $token := $tokens[1]
-  let $tokens := remove($tokens,1)
-  return
-    if($token/@t = "comma") then (
-      let $res := xqilla:parseArray($tokens)
-      let $tokens := remove($res,1)
-      return (
+    if($tokens[1]/@t = "rsquare") then (
+    (: empty array! :)
+    
+    element res {},
+    remove($tokens, 1)
+  ) else
+    let $res := xqilla:parseValue($tokens)
+    let $tokens := remove($res,1)
+    let $item := element item {
+      $res[1]/@*,
+      $res[1]/node()
+    }
+    let $token := $tokens[1]
+    let $tokens := remove($tokens,1)
+    return
+      if($token/@t = "comma") then (
+        let $res := xqilla:parseArray($tokens)
+        let $tokens := remove($res,1)
+        return (
+          element res {
+            $item,
+            $res[1]/node()
+          },
+          $tokens
+        )
+      ) else if($token/@t = "rsquare") then (
         element res {
-          $item,
-          $res[1]/node()
+          $item
         },
         $tokens
-      )
-    ) else if($token/@t = "rsquare") then (
-      element res {
-        $item
-      },
-      $tokens
-    ) else xqilla:parseError($token)
+      ) else xqilla:parseError($token)
 };
 
 declare %private function xqilla:parseError($token as element(token))
