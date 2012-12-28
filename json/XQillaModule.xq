@@ -19,6 +19,7 @@ xquery version "3.0";
 
 (:
     20121227 Adam Retter patched parseArray to support empty arrays
+    20121227 Adam Retter patched parseObject to support empty objects
 :)
 
 module namespace xqilla="http://xqilla.sourceforge.net/Functions";
@@ -94,7 +95,11 @@ declare %private function xqilla:parseObject($tokens as element(token)*)
   let $token1 := $tokens[1]
   let $tokens := remove($tokens,1)
   return
-    if(not($token1/@t = "string")) then xqilla:parseError($token1) else
+    if($token1/@t eq "rbrace")then (
+        element res {
+        },
+        $tokens
+    ) else if(not($token1/@t = "string")) then xqilla:parseError($token1) else
       let $token2 := $tokens[1]
       let $tokens := remove($tokens,1)
       return
