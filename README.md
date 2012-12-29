@@ -31,7 +31,7 @@ Note that the original module used "xqilla" as the module's namespace prefix, bu
 
 This function translates a JSON string into an XML representation.  
 
-    xqjson:xqparse-json('{
+    xqjson:parse-json('{
         "firstName": "John",
         "lastName": "Smith",
         "address": {
