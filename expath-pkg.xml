@@ -3,6 +3,6 @@
     <title>JSON Parser and Serializer for XQuery</title>
     <xquery>
         <namespace>http://xqilla.sourceforge.net/Functions</namespace>
-        <file>xqjson.xqm</file>
+        <file>xqjson.xql</file>
     </xquery>
 </package>
