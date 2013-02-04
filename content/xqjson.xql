@@ -22,9 +22,8 @@ xquery version "3.0";
     20121227 Adam Retter patched parseArray to support empty arrays
     20121227 Adam Retter patched parseObject to support empty objects
 :)
-
 module namespace xqjson="http://xqilla.sourceforge.net/Functions";
-
+import module namespace json="http://www.json.org";
 (:----------------------------------------------------------------------------------------------------:)
 (: JSON parsing :)
 
@@ -323,9 +322,9 @@ Transform into xml serializable to json natively by eXist
 :)
 declare function xqjson:to-plain-xml($node as element()) as element()* {
  let $name := string(node-name($node))
-	let $name :=
+    let $name :=
 		if($name = "json") then
-			"root"
+			"json:root"
 		else if($name = "pair" and $node/@name) then
 			$node/@name
 		else
@@ -333,11 +332,20 @@ declare function xqjson:to-plain-xml($node as element()) as element()* {
 	return
 		if($node[@type = "array"]) then
 			for $item in $node/node() return
-				xqjson:to-plain-xml(element {$name} {$item/node()})
+				let $item := element {$name} {
+                    attribute {"json:array"} {"true"},
+                    $item/node()
+                }
+                return xqjson:to-plain-xml($item)
 		else
 			element {$name} {
+                if($node/@type = ("number","boolean")) then
+                    attribute {"json:literal"} {"true"}
+                else
+                    (),
+                $node/@*[matches(name(.),"json:")],
 				for $child in $node/node() return
-					if ($child instance of element()) then
+					if($child instance of element()) then
 						xqjson:to-plain-xml($child)
 					else
 						$child
