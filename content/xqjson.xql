@@ -316,3 +316,30 @@ declare %private function xqjson:decodeHexStringHelper($chars as xs:integer*, $a
   if(empty($chars)) then $acc
   else xqjson:decodeHexStringHelper(remove($chars,1), ($acc * 16) + xqjson:decodeHexChar($chars[1]))
 };
+
+(:----------------------------------------------------------------------------------------------------:)
+(:
+Transform into xml serializable to json natively by eXist
+:)
+declare function xqjson:to-plain-xml($node as element()) as element()* {
+ let $name := string(node-name($node))
+	let $name :=
+		if($name = "json") then
+			"root"
+		else if($name = "pair" and $node/@name) then
+			$node/@name
+		else
+			$name
+	return
+		if($node[@type = "array"]) then
+			for $item in $node/node() return
+				xqjson:to-plain-xml(element {$name} {$item/node()})
+		else
+			element {$name} {
+				for $child in $node/node() return
+					if ($child instance of element()) then
+						xqjson:to-plain-xml($child)
+					else
+						$child
+	}
+};
