@@ -21,9 +21,10 @@ xquery version "3.0";
     20121227 Adam Retter changed namespace prefix from xqilla to xqjson
     20121227 Adam Retter patched parseArray to support empty arrays
     20121227 Adam Retter patched parseObject to support empty objects
+    20130210 Joe Wicentowski changed namespace to include 'xqjson'
 :)
 
-module namespace xqjson="http://xqilla.sourceforge.net/Functions";
+module namespace xqjson="http://xqilla.sourceforge.net/lib/xqjson";
 
 (:----------------------------------------------------------------------------------------------------:)
 (: JSON parsing :)

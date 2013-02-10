@@ -1,0 +1,8 @@
+<package xmlns="http://expath.org/ns/pkg" name="http://xqilla.sourceforge.net/pkg/xqjson" abbrev="xqjson"
+    version="0.1.4" spec="1.0">
+    <title>JSON Parser and Serializer for XQuery</title>
+    <xquery>
+        <namespace>http://xqilla.sourceforge.net/lib/xqjson</namespace>
+        <file>xqjson.xql</file>
+    </xquery>
+</package>

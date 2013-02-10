@@ -11,7 +11,7 @@ The [original module](http://xqilla.hg.sourceforge.net/hgweb/xqilla/xqilla/file/
 was designed for use with [XQilla](http://xqilla.sourceforge.net/HomePage), but since it is written in pure XQuery 3.0, 
 it is compatible with other XQuery 3.0 processors.  
 
-This package has been tested with eXist 2.0RC (it is not compatible with eXist-db 1.x).  
+This package has been tested with eXist 2.0 (it is not compatible with eXist-db 1.x).  
 
 To build this into an EXPath Package, you will need [Apache Ant](http://ant.apache.org/).  
 
@@ -26,9 +26,11 @@ project's build folder. Then install the package via the eXist-db Package Manage
 
 ### Import the module
 
-    import module namespace xqjson="http://xqilla.sourceforge.net/Functions";
+    import module namespace xqjson="http://xqilla.sourceforge.net/lib/xqjson";
 
-Note that the original module used "xqilla" as the module's namespace prefix, but this package uses "xqjson" instead.
+Note that the original module used "xqilla" as the module's namespace prefix, but this module uses "xqjson" instead, 
+and the original module used "http://xqilla.sourceforge.net/Functions" as the module's namespace, but this module has 
+adopted the more specific "http://xqilla.sourceforge.net/lib/xqjson".
 
 ### xqjson:parse-json($json as xs:string?) as element()?
 

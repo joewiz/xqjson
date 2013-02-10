@@ -1,6 +1,6 @@
 <meta xmlns="http://exist-db.org/xquery/repo">
     <author>John Snelson</author>
-    <website>https://github.com/joewiz/xquery-json</website>
+    <website>https://github.com/joewiz/xqjson</website>
     <license>Apache License, Version 2.0</license>
     <copyright>true</copyright>
     <description>An XQuery module with functions for parsing and serializing JSON.</description>

@@ -1,7 +1,8 @@
-<package xmlns="http://cxan.org/ns/package" id="xquery-json">
+<package xmlns="http://cxan.org/ns/package" id="xqjson">
     <abstract>An XQuery library module with functions for parsing and serializing JSON</abstract>
     <author id="jsnelson">John Snelson</author>
     <maintainer id="joewiz">Joe Wicentowski</maintainer>
+    <home>http://github.com/joewiz/xqjson</home>
     <category id="libs">Libraries</category>
     <tag>json</tag>
     <tag>xquery</tag>
