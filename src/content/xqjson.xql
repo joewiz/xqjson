@@ -22,6 +22,7 @@ xquery version "3.0";
     20121227 Adam Retter patched parseArray to support empty arrays
     20121227 Adam Retter patched parseObject to support empty objects
     20130210 Joe Wicentowski changed namespace to include 'xqjson'
+    20130612 Joe Wicentowski patched tokenize to handle long string arrays
 :)
 
 module namespace xqjson="http://xqilla.sourceforge.net/lib/xqjson";
@@ -180,8 +181,8 @@ declare %private function xqjson:tokenize($json as xs:string)
   as element(token)*
 {
   let $tokens := ("\{", "\}", "\[", "\]", ":", ",", "true", "false", "null", "\s+",
-    '"([^"\\]|\\"|\\\\|\\/|\\b|\\f|\\n|\\r|\\t|\\u[A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9])*"',
-    "-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]+)?")
+    '"(?>[^"\\]|\\"|\\\\|\\/|\\b|\\f|\\n|\\r|\\t|\\u[A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9])*"',
+    "-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+\-]?[0-9]+)?")
   let $regex := string-join(for $t in $tokens return concat("(",$t,")"),"|")
   for $match in analyze-string($json, $regex)/*
   return
@@ -200,7 +201,7 @@ declare %private function xqjson:tokenize($json as xs:string)
       let $v := string($match)
       let $len := string-length($v)
       return xqjson:token("string", substring($v, 2, $len - 2))
-    else if($match/*:group/@nr = 13) then xqjson:token("number", string($match))
+    else if($match/*:group/@nr = 12) then xqjson:token("number", string($match))
     else xqjson:token("error", string($match))
 };
 

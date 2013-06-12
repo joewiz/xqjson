@@ -3,6 +3,6 @@
     <property name="build.dir" value="build"/>
     <target name="xar">
         <mkdir dir="${build.dir}"/>
-        <zip basedir="src" destfile="${build.dir}/xqjson-0.1.4.xar"/>
+        <zip basedir="src" destfile="${build.dir}/xqjson-0.1.5.xar"/>
     </target>
 </project>
