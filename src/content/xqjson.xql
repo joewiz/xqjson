@@ -309,7 +309,7 @@ declare %private function xqjson:decodeHexChar($val as xs:integer)
   let $tmp := $val - 48 (: '0' :)
   let $tmp := if($tmp <= 9) then $tmp else $tmp - (65-48) (: 'A'-'0' :)
   let $tmp := if($tmp <= 15) then $tmp else $tmp - (97-65) (: 'a'-'A' :)
-  return $tmp
+  return if($val > 57) then $tmp + 10 else $tmp
 };
 
 declare %private function xqjson:decodeHexStringHelper($chars as xs:integer*, $acc as xs:integer)
