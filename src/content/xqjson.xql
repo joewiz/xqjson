@@ -23,6 +23,9 @@ xquery version "3.0";
     20121227 Adam Retter patched parseObject to support empty objects
     20130210 Joe Wicentowski changed namespace to include 'xqjson'
     20130612 Joe Wicentowski patched tokenize to handle long string arrays
+    20130613 Leif-Jöran Olsson patched decodeHexChar to correctly handle a-f chars.
+    20130614 Refactoring suggestion for performance of same function by Michael Westbay.
+
 :)
 
 module namespace xqjson="http://xqilla.sourceforge.net/lib/xqjson";
@@ -306,11 +309,11 @@ declare function xqjson:decode-hex-string($val as xs:string)
 declare %private function xqjson:decodeHexChar($val as xs:integer)
   as xs:integer
 {
-  let $tmp := $val - 48 (: '0' :)
-  let $tmp := if($tmp <= 9) then $tmp else $tmp - (65-48) (: 'A'-'0' :)
-  let $tmp := if($tmp <= 15) then $tmp else $tmp - (97-65) (: 'a'-'A' :)
-  return if($val > 57) then $tmp + 10 else $tmp
+  if ($val le 57) then $val - 48      (: Handle '0' to '9' by subtracting '0' :)
+  else if ($val le 70) then $val - 55 (: Handle 'A' to 'F' by subtracting 'A' and adding 10 (-65 + 10) :)
+  else $val - 87                      (: Handle 'a' to 'f' by subtracting 'a' and adding 10 (-97 + 10) :)
 };
+
 
 declare %private function xqjson:decodeHexStringHelper($chars as xs:integer*, $acc as xs:integer)
   as xs:integer
