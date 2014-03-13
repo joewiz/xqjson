@@ -184,7 +184,7 @@ declare %private function xqjson:tokenize($json as xs:string)
   as element(token)*
 {
   let $tokens := ("\{", "\}", "\[", "\]", ":", ",", "true", "false", "null", "\s+",
-    '"(?>[^"\\]|\\"|\\\\|\\/|\\b|\\f|\\n|\\r|\\t|\\u[A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9])*"',
+    '"([^"\\]|\\"|\\\\|\\/|\\b|\\f|\\n|\\r|\\t|\\u[A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9])*"',
     "-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+\-]?[0-9]+)?")
   let $regex := string-join(for $t in $tokens return concat("(",$t,")"),"|")
   for $match in analyze-string($json, $regex)/*
