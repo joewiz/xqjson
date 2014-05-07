@@ -241,13 +241,14 @@ declare %private function xqjson:serializeJSONObject($e as element())
   as xs:string*
 {
   "{",
-  $e/*/(
-    if(position() = 1) then () else ",",
-    '"', xqjson:escape-json-string(@name), '":',
-    xqjson:serializeJSONElement(.)
+  for $el at $pos in $e/* return
+ (
+    if($pos = 1) then () else ",",
+    '"', xqjson:escape-json-string($el/@name), '":',
+    xqjson:serializeJSONElement($el)
   ),
   "}"
-};
+}; 
 
 declare %private function xqjson:serializeJSONArray($e as element())
   as xs:string*
