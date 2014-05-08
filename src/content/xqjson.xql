@@ -25,7 +25,7 @@ xquery version "3.0";
     20130612 Joe Wicentowski patched tokenize to handle long string arrays
     20130613 Leif-Jöran Olsson patched decodeHexChar to correctly handle a-f chars.
     20130614 Refactoring suggestion for performance of same function by Michael Westbay.
-
+    20140507 @Albicocca helped fix bug where commas were output when serializing JSON.
 :)
 
 module namespace xqjson="http://xqilla.sourceforge.net/lib/xqjson";
@@ -184,7 +184,7 @@ declare %private function xqjson:tokenize($json as xs:string)
   as element(token)*
 {
   let $tokens := ("\{", "\}", "\[", "\]", ":", ",", "true", "false", "null", "\s+",
-    '"([^"\\]|\\"|\\\\|\\/|\\b|\\f|\\n|\\r|\\t|\\u[A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9])*"',
+    '"(?>[^"\\]|\\"|\\\\|\\/|\\b|\\f|\\n|\\r|\\t|\\u[A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9])*"',
     "-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+\-]?[0-9]+)?")
   let $regex := string-join(for $t in $tokens return concat("(",$t,")"),"|")
   for $match in analyze-string($json, $regex)/*
@@ -241,21 +241,23 @@ declare %private function xqjson:serializeJSONObject($e as element())
   as xs:string*
 {
   "{",
-  $e/*/(
-    if(position() = 1) then () else ",",
-    '"', xqjson:escape-json-string(@name), '":',
-    xqjson:serializeJSONElement(.)
+  for $el at $pos in $e/* return
+ (
+    if($pos = 1) then () else ",",
+    '"', xqjson:escape-json-string($el/@name), '":',
+    xqjson:serializeJSONElement($el)
   ),
   "}"
-};
+}; 
 
 declare %private function xqjson:serializeJSONArray($e as element())
   as xs:string*
 {
   "[",
-  $e/*/(
-    if(position() = 1) then () else ",",
-    xqjson:serializeJSONElement(.)
+  for $el at $pos in $e/* return
+  (
+    if($pos = 1) then () else ",",
+    xqjson:serializeJSONElement($el)
   ),
   "]"
 };

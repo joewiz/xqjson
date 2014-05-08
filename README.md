@@ -1,21 +1,21 @@
 # Parsing JSON into XQuery
 
 An XQuery module for parsing and serializing JSON, 
-[written and documented by John Snelson](http://john.snelson.org.uk/parsing-json-into-xquery), packaged in the 
+[written and documented by John Snelson](http://john.snelson.org.uk/post/48547628468/parsing-json-into-xquery), packaged in the 
 [EXPath Package format](http://www.expath.org/spec/pkg) for convenient installation in XQuery implementation that 
-support it. Minor bug-fixes have been added to support empty arrays and empty objects as allowed by the JSON specification.
+support it. Minor bugs have been fixed.
 
 ## Requirements and Compatibility
 
 The [original module](http://xqilla.hg.sourceforge.net/hgweb/xqilla/xqilla/file/6458513c94c0/src/functions/XQillaModule.xq)
 was designed for use with [XQilla](http://xqilla.sourceforge.net/HomePage), but since it is written in pure XQuery 3.0, 
-it is compatible with other XQuery 3.0 processors.  
+it is compatible with other XQuery 3.0 processors.  It has been tested with eXist 2.0+.  
 
-This package has been tested with eXist 2.0 (it is not compatible with eXist-db 1.x).  
-
-To build this into an EXPath Package, you will need [Apache Ant](http://ant.apache.org/).  
-
-To install the package, you need an implementation of XQuery that supports the EXPath Package system.
+You can download the core module from the `src/content/` directory and import it in your own XQuery. 
+For many systems, it is more convenient to install the module as an [EXPath Package](http://expath.org/modules/pkg/) (.xar file). 
+A pre-built package is available on the [Releases](https://github.com/joewiz/xqjson/releases) page. 
+To build the source into a package, you will need [Apache Ant](http://ant.apache.org/). 
+To install the package, you need an implementation of XQuery that [supports](http://expath.org/modules/pkg/implems) the EXPath Package system.
 
 ## Installation for eXist-db
 

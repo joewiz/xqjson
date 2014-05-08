@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="xar" name="xqjson">
+    <property name="project.name" value="xqjson"/>
+    <property name="project.version" value="0.1.6"/>
     <property name="build.dir" value="build"/>
     <target name="xar">
         <mkdir dir="${build.dir}"/>
-        <zip basedir="src" destfile="${build.dir}/xqjson-0.1.5.xar"/>
+        <zip basedir="src" destfile="${build.dir}/${project.name}-${project.version}.xar"/>
+    </target>
+    <target name="clean">
+        <delete failonerror="false" dir="${build.dir}"/>
     </target>
 </project>
