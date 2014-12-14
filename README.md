@@ -36,38 +36,67 @@ adopted the more specific "http://xqilla.sourceforge.net/lib/xqjson".
 
 This function translates a JSON string into an XML representation.  
 
-    xqjson:parse-json('{
-        "firstName": "John",
-        "lastName": "Smith",
-        "address": {
-            "streetAddress": "21 2nd Street",
-            "city": "New York",
-            "state": "NY",
-            "postalCode": 10021
-        },
-        "phoneNumbers": [
-            "212 732-1234",
-            "646 123-4567"
-        ]
-    }')
+```xquery
+xqjson:parse-json('{
+    "firstName": "John",
+    "lastName": "Smith",
+    "address": {
+        "streetAddress": "21 2nd Street",
+        "city": "New York",
+        "state": "NY",
+        "postalCode": 10021
+    },
+    "phoneNumbers": [
+        "212 732-1234",
+        "646 123-4567"
+    ]
+}')
+```
     
 This will return the following result:
 
-    <json type="object">
-        <pair name="firstName" type="string">John</pair>
-        <pair name="lastName" type="string">Smith</pair>
-        <pair name="address" type="object">
-            <pair name="streetAddress" type="string">21 2nd Street</pair>
-            <pair name="city" type="string">New York</pair>
-            <pair name="state" type="string">NY</pair>
-            <pair name="postalCode" type="number">10021</pair>
-        </pair>
-        <pair name="phoneNumbers" type="array">
-            <item type="string">212 732-1234</item>
-            <item type="string">646 123-4567</item>
-        </pair>
-    </json>
+```xml
+<json type="object">
+    <pair name="firstName" type="string">John</pair>
+    <pair name="lastName" type="string">Smith</pair>
+    <pair name="address" type="object">
+        <pair name="streetAddress" type="string">21 2nd Street</pair>
+        <pair name="city" type="string">New York</pair>
+        <pair name="state" type="string">NY</pair>
+        <pair name="postalCode" type="number">10021</pair>
+    </pair>
+    <pair name="phoneNumbers" type="array">
+        <item type="string">212 732-1234</item>
+        <item type="string">646 123-4567</item>
+    </pair>
+</json>
+```
 
 ### xqjson:serialize-json($json-xml as element()?) as xs:string?
 
 This function reverses the above process.
+
+## Running the test suite
+
+A test suite, written using the [XQSuite]() framework for eXist, can be run with the following command, assuming
+Apache Ant is installed (some properties in `build.xml` may need to be adapted to your system):
+
+```bash
+ant test
+```
+
+The result should show something like:
+
+```xml
+<testsuites>
+    <testsuite package="http://exist-db.org/xquery/test/xqjson"
+        timestamp="2014-12-14T01:13:38.684-05:00" failures="0" pending="0" tests="4" time="PT0.03S">
+        <testcase name="parse-json" class="xj:parse-json"/>
+        <testcase name="parse-json2" class="xj:parse-json2"/>
+        <testcase name="serialize-json" class="xj:serialize-json"/>
+        <testcase name="serialize-json2" class="xj:serialize-json2"/>
+    </testsuite>
+</testsuites>
+```
+
+If all is well, the `@failures` attribute should read `0`.
