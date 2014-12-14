@@ -7,10 +7,12 @@
     <property name="test.dir" value="test"/>
     
     <property name="exist.dir" value="../exist"/>
-    <property name="server.uri" value="xmldb:exist://localhost:8080/exist/xmlrpc/db/"/>
-    <property name="server.test.dir" value="http://localhost:8080/exist/apps/xqjson-test/"/>
+    <property name="server.xmlrpc.uri" value="xmldb:exist://localhost:8080/exist/xmlrpc/db/apps/"/>
+    <property name="server.http.uri" value="http://localhost:8080/exist/apps/"/>
     <property name="dba.username" value="admin"/>
     <property name="dba.password" value=""/>
+    <property name="test.collection" value="xqjson-test"/>
+    <property name="test.collection.path" value="/db/apps/${test.collection}"/>
 
     <!-- =================================================================== -->
     <!-- Include eXist-db's ant libraries and ant-contrib library            -->
@@ -40,28 +42,27 @@
     
     <target name="setup">
         <property name="xar">${project.name}-${project.version}.xar</property>
-        <xdb:store user="${dba.username}" password="${dba.password}" uri="${server.uri}"
+        <xdb:store user="${dba.username}" password="${dba.password}" uri="${server.xmlrpc.uri}${test.collection}"
             createcollection="true" createsubcollections="true">
             <fileset dir="${build.dir}"/>
         </xdb:store>
-        <xdb:xquery user="${dba.username}" password="${dba.password}"
-            uri="${server.uri}"
-            outputproperty="deploy-result">repo:install-and-deploy-from-db('/db/apps/xqjson-test/${xar}')</xdb:xquery>
+        <xdb:xquery user="${dba.username}" password="${dba.password}" uri="${server.xmlrpc.uri}"
+            outputproperty="deploy-result">repo:install-and-deploy-from-db('${test.collection.path}/${xar}')</xdb:xquery>
         <echo message="${deploy-result}"/>
-        <xdb:store user="${dba.username}" password="${dba.password}" uri="${server.uri}/apps/xqjson-test"
+        <xdb:store user="${dba.username}" password="${dba.password}" uri="${server.xmlrpc.uri}${test.collection}"
             createcollection="true" createsubcollections="true">
             <fileset dir="${test.dir}"/>
         </xdb:store>
     </target>
     <target name="run-test-suite">
         <exec executable="curl">
-            <arg line='-H "Accept: application/xml" -H "Content-Type: application/xml" -X GET -u ${dba.username}:${dba.password} ${server.test.dir}suite.xql'/>
+            <arg line='-H "Accept: application/xml" -H "Content-Type: application/xml" -X GET -u ${dba.username}:${dba.password} ${server.http.uri}${test.collection}/suite.xql'/>
         </exec>
     </target>
     <target name="teardown">
-        <xdb:xquery user="${dba.username}" password="${dba.password}"
-            uri="${server.uri}"
+        <xdb:xquery user="${dba.username}" password="${dba.password}" uri="${server.xmlrpc.uri}"
             outputproperty="remove-result">repo:undeploy('${package.name}'), repo:remove('${package.name}')</xdb:xquery>
         <echo message="${remove-result}"/>
+        <xdb:remove user="${dba.username}" password="${dba.password}" uri="${server.xmlrpc.uri}" collection="${test.collection}"/>
     </target>
 </project>
