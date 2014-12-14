@@ -78,8 +78,9 @@ This function reverses the above process.
 
 ## Running the test suite
 
-A test suite, written using the [XQSuite]() framework for eXist, can be run with the following command, assuming
-Apache Ant is installed (some properties in `build.xml` may need to be adapted to your system):
+A test suite, written using the [XQSuite](http://exist-db.org/exist/apps/doc/xqsuite.xml) framework for 
+eXist, can be run with the following command, assuming Apache Ant is installed (some properties in 
+`build.xml` may need to be adapted to your system):
 
 ```bash
 ant test
