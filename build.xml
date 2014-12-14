@@ -6,6 +6,7 @@
     <property name="build.dir" value="build"/>
     <property name="test.dir" value="test"/>
     
+    <property name="exist.dir" value="../exist"/>
     <property name="server.uri" value="xmldb:exist://localhost:8080/exist/xmlrpc/db/"/>
     <property name="server.test.dir" value="http://localhost:8080/exist/apps/xqjson-test/"/>
     <property name="dba.username" value="admin"/>
@@ -17,15 +18,15 @@
     
     <typedef resource="org/exist/ant/antlib.xml" uri="http://exist-db.org/ant">
         <classpath>
-            <fileset dir="../exist/lib/core">
+            <fileset dir="${exist.dir}/lib/core">
                 <include name="*.jar"/>
             </fileset>
-            <pathelement location="../exist/exist.jar"/>
-            <pathelement location="../exist/exist-optional.jar"/>
+            <pathelement location="${exist.dir}/exist.jar"/>
+            <pathelement location="${exist.dir}/exist-optional.jar"/>
         </classpath>
     </typedef>
     
-    <typedef resource="net/sf/antcontrib/antlib.xml" classpath="../exist/tools/ant/lib/ant-contrib-1.0b3.jar"/>
+    <typedef resource="net/sf/antcontrib/antlib.xml" classpath="${exist.dir}/tools/ant/lib/ant-contrib-1.0b3.jar"/>
     
     <target name="xar">
         <mkdir dir="${build.dir}"/>
