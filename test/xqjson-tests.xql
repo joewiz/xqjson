@@ -6,6 +6,9 @@ import module namespace xqjson="http://xqilla.sourceforge.net/lib/xqjson";
 
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 
+
+(: Simple - A JSON object, containing a single name/value pair :)
+
 declare 
     %test:args('{"firstName":"John"}')
     %test:assertEquals('<json type="object"><pair name="firstName" type="string">John</pair></json>')
@@ -20,6 +23,9 @@ function xj:serialize-json-object-one-pair($json-xml as element(json)) {
     xqjson:serialize-json($json-xml)
 };
 
+
+(: Intermediate - A JSON object, containing two name/value pairs :)
+
 declare 
     %test:args('{"firstName":"John","lastName":"Doe"}')
     %test:assertEquals('<json type="object"><pair name="firstName" type="string">John</pair><pair name="lastName" type="string">Doe</pair></json>')
@@ -33,6 +39,9 @@ declare
 function xj:serialize-json-object-two-pairs($json-xml as element(json)) {
     xqjson:serialize-json($json-xml)
 };
+
+
+(: Advanced - A JSON object, containing name/value pairs, arrays, and string and number types :)
 
 declare
     %test:args('{"firstName":"John","lastName":"Smith","address":{"streetAddress":"21 2nd Street","city":"New York","state":"NY","postalCode":10021},"phoneNumbers":["212 732-1234","646 123-4567"]}')
