@@ -1,9 +1,13 @@
 # Parsing JSON into XQuery
 
-An XQuery module for parsing and serializing JSON, 
-[written and documented by John Snelson](http://john.snelson.org.uk/post/48547628468/parsing-json-into-xquery), packaged in the 
-[EXPath Package format](http://www.expath.org/spec/pkg) for convenient installation in XQuery implementation that 
-support it. Minor bugs have been fixed.
+An XQuery module for parsing and serializing JSON, originally
+written by John Snelson, with minor bug fixes applied, and packaged in the 
+[EXPath Package format](http://www.expath.org/spec/pkg) for convenient installation in any XQuery implementation that 
+support it. 
+
+## Documentation 
+
+Snelson's [original article](http://john.snelson.org.uk/post/48547628468/parsing-json-into-xquery) is the official documentation. The information below focuses on how to install this module and get up and running.
 
 ## Requirements and Compatibility
 
