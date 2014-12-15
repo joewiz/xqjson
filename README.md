@@ -76,6 +76,18 @@ This will return the following result:
 
 This function reverses the above process.
 
+## Reference: John Snelson's mapping of JSON into XML 
+
+|JSON|type(JSON)|toXML(JSON)|
+|----|----------|-----------|
+|JSON|N/A|`<json type="`type(JSON)`">`toXML(JSON)`</json>`|
+|`{ "key1": value1, "key2": value2 }`|object|`<pair name="key1" type="`*type(value1)*`">`*toXML(value1)*`</pair> <pair name="key2" type="`*type(value2)*`">`*toXML(value2)*`</pair>`|
+|`[ value1, value2 ]`|array|`<item type="`*type(value1)*`">`*toXML(value1)*`</item> <item type="`*type(value2)*`">`*toXML(value2)*`</item>`|
+|`"value"`|string|`value`|
+|*number*|number|*number*|
+|`true` / `false`|boolean|`true` / `false`|
+|`null`|null|*empty*|
+
 ## Running the test suite
 
 A test suite, written using the [XQSuite](http://exist-db.org/exist/apps/doc/xqsuite.xml) framework for 
