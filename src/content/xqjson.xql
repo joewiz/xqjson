@@ -184,7 +184,7 @@ declare %private function xqjson:tokenize($json as xs:string)
   as element(token)*
 {
   let $tokens := ("\{", "\}", "\[", "\]", ":", ",", "true", "false", "null", "\s+",
-    '"(?>[^"\\]|\\"|\\\\|\\/|\\b|\\f|\\n|\\r|\\t|\\u[A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9])*"',
+    '"([^"\\]|\\"|\\\\|\\/|\\b|\\f|\\n|\\r|\\t|\\u[A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9])*"',
     "-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+\-]?[0-9]+)?")
   let $regex := string-join(for $t in $tokens return concat("(",$t,")"),"|")
   for $match in analyze-string($json, $regex)/*
@@ -204,7 +204,12 @@ declare %private function xqjson:tokenize($json as xs:string)
       let $v := string($match)
       let $len := string-length($v)
       return xqjson:token("string", substring($v, 2, $len - 2))
-    else if($match/*:group/@nr = 12) then xqjson:token("number", string($match))
+    (: 
+        In the original version the string matching *inner* group was masked via '?>' as an atomic group (thus non-capturing).
+        This is not supported by Saxon so I removed it and incremented the group count by one.
+        group/@nr=12 is now the inner group of group/@nr=11 and will never appear as a direct child of <match>.
+    :)
+    else if($match/*:group/@nr = 13) then xqjson:token("number", string($match))
     else xqjson:token("error", string($match))
 };
 
