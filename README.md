@@ -3,11 +3,11 @@
 An XQuery module for parsing and serializing JSON, originally
 written by John Snelson, with minor bug fixes applied, and packaged in the 
 [EXPath Package format](http://www.expath.org/spec/pkg) for convenient installation in any XQuery implementation that 
-support it. 
+supports it. 
 
 ## Documentation 
 
-Snelson's [original article](http://john.snelson.org.uk/post/48547628468/parsing-json-into-xquery) is the official documentation. The information below focuses on how to install this module and get up and running.
+Snelson's [original article](http://john.snelson.org.uk/post/48547628468/parsing-json-into-xquery) is the official documentation. The information below focuses on how to install this module and get up and running. A table from Snelson's article about how each aspect of JSON is captured as XML is reproduced [below](#json-xml-mapping).
 
 ## Requirements and Compatibility
 
@@ -38,23 +38,49 @@ adopted the more specific "http://xqilla.sourceforge.net/lib/xqjson".
 
 ### xqjson:parse-json($json as xs:string?) as element()?
 
-This function translates a JSON string into an XML representation.  
+This function translates a valid JSON string into an XML representation.  
+
+**Note:** This function assumes that the JSON string supplied is valid JSON. If you encounter an error with this function, please check to make sure your JSON is valid using a free, online validator like [jsonlint.com](http://jsonlint.com/).
+
+### xqjson:serialize-json($json-xml as element()?) as xs:string?
+
+This function reverses the above process. 
+
+**Note**: The resulting JSON is not pretty-printed, and no effort is made to preserve whitespace when roundtripping from JSON to parsed XML back to serialized JSON.
+
+## Examples
+
+This example shows how the `parse-json()` function translates and captures JSON objects, arrays, strings, numbers, booleans, and nulls. (The JSON string was taken from [wikipedia](http://en.wikipedia.org/wiki/JSON#Data_types.2C_syntax_and_example).)
 
 ```xquery
-xqjson:parse-json('{
-    "firstName": "John",
-    "lastName": "Smith",
-    "address": {
-        "streetAddress": "21 2nd Street",
-        "city": "New York",
-        "state": "NY",
-        "postalCode": 10021
-    },
-    "phoneNumbers": [
-        "212 732-1234",
-        "646 123-4567"
-    ]
-}')
+let $json := 
+    '{
+        "firstName": "John",
+        "lastName": "Smith",
+        "isAlive": true,
+        "age": 25,
+        "height_cm": 167.6,
+        "address": {
+            "streetAddress": "21 2nd Street",
+            "city": "New York",
+            "state": "NY",
+            "postalCode": "10021-3100"
+        },
+        "phoneNumbers": [
+            {
+                "type": "home",
+                "number": "212 555-1234"
+            },
+            {
+                "type": "office",
+                "number": "646 555-4567"
+            }
+        ],
+        "children": [],
+        "spouse": null
+    }')
+return
+    xqjson:parse-json($json)
 ```
     
 This will return the following result:
@@ -63,24 +89,144 @@ This will return the following result:
 <json type="object">
     <pair name="firstName" type="string">John</pair>
     <pair name="lastName" type="string">Smith</pair>
+    <pair name="isAlive" type="boolean">true</pair>
+    <pair name="age" type="number">25</pair>
+    <pair name="height_cm" type="number">167.6</pair>
     <pair name="address" type="object">
         <pair name="streetAddress" type="string">21 2nd Street</pair>
         <pair name="city" type="string">New York</pair>
         <pair name="state" type="string">NY</pair>
-        <pair name="postalCode" type="number">10021</pair>
+        <pair name="postalCode" type="string">10021-3100</pair>
     </pair>
     <pair name="phoneNumbers" type="array">
-        <item type="string">212 732-1234</item>
-        <item type="string">646 123-4567</item>
+        <item type="object">
+            <pair name="type" type="string">home</pair>
+            <pair name="number" type="string">212 555-1234</pair>
+        </item>
+        <item type="object">
+            <pair name="type" type="string">office</pair>
+            <pair name="number" type="string">646 555-4567</pair>
+        </item>
+    </pair>
+    <pair name="children" type="array"/>
+    <pair name="spouse" type="null"/>
+</json>
+```
+
+Using xqjson:serialize-json() on this `<json>` element will return the original JSON, sans pretty printing:
+
+```json
+{"firstName":"John","lastName":"Smith","isAlive":true,"age":25,"height_cm":167.6,"address":{"streetAddress":"21 2nd Street","city":"New York","state":"NY","postalCode":"10021-3100"},"phoneNumbers":[{"type":"home","number":"212 555-1234"},{"type":"office","number":"646 555-4567"}],"children":[],"spouse":null}
+```
+
+### JSON Object with a single pair, illustrating string type
+
+```json
+{
+    "firstName": "John"
+}
+```
+
+```xml
+<json type="object">
+    <pair name="firstName" type="string">John</pair>
+</json>
+```
+
+### JSON Object with multiple pairs, illustrating string, number, and boolean types
+
+```json
+{
+    "firstName": "John",
+    "lastName": "Smith",
+    "age": 25,
+    "isAlive": true
+}
+```
+
+```xml
+<json type="object">
+    <pair name="firstName" type="string">John</pair>
+    <pair name="lastName" type="string">Smith</pair>
+    <pair name="age" type="number">25</pair>
+    <pair name="isAlive" type="boolean">true</pair>
+</json>
+```
+
+### JSON Object with a pair whose value is another object
+
+```json
+{
+    "address": {
+        "streetAddress": "21 2nd Street",
+        "city": "New York",
+        "state": "NY",
+        "postalCode": "10021-3100"
+    }
+}
+```
+
+```xml
+<json type="object">
+    <pair name="address" type="object">
+        <pair name="streetAddress" type="string">21 2nd Street</pair>
+        <pair name="city" type="string">New York</pair>
+        <pair name="state" type="string">NY</pair>
+        <pair name="postalCode" type="string">10021-3100</pair>
     </pair>
 </json>
 ```
 
-### xqjson:serialize-json($json-xml as element()?) as xs:string?
+### JSON Object with a pair whose value is an Array
 
-This function reverses the above process.
+```json
+{
+    "phoneNumbers": [
+        {
+            "type": "home",
+            "number": "212 555-1234"
+        },
+        {
+            "type": "office",
+            "number": "646 555-4567"
+        }
+    ]
+}
+```
 
-## Reference: John Snelson's mapping of JSON into XML 
+```xml
+<json type="object">
+    <pair name="phoneNumbers" type="array">
+        <item type="object">
+            <pair name="type" type="string">home</pair>
+            <pair name="number" type="string">212 555-1234</pair>
+        </item>
+        <item type="object">
+            <pair name="type" type="string">office</pair>
+            <pair name="number" type="string">646 555-4567</pair>
+        </item>
+    </pair>
+</json>
+```
+
+### JSON Object with two pairs showing an empty array and a null value
+
+```json
+{
+    "children": [],
+    "spouse": null
+}
+```
+
+```xml
+<json type="object">
+    <pair name="children" type="array"/>
+    <pair name="spouse" type="null"/>
+</json>
+```
+
+
+## JSON-XML Mapping 
 
 |JSON|type(JSON)|toXML(JSON)|
 |----|----------|-----------|
@@ -91,6 +237,9 @@ This function reverses the above process.
 |*number*|number|*number*|
 |`true` / `false`|boolean|`true` / `false`|
 |`null`|null|*empty*|
+
+
+
 
 ## Running the test suite
 
@@ -107,11 +256,9 @@ The result should show something like:
 ```xml
 <testsuites>
     <testsuite package="http://exist-db.org/xquery/test/xqjson"
-        timestamp="2014-12-14T01:13:38.684-05:00" failures="0" pending="0" tests="4" time="PT0.03S">
+        timestamp="2014-12-14T01:13:38.684-05:00" failures="0" pending="0" tests="2" time="PT0.03S">
         <testcase name="parse-json" class="xj:parse-json"/>
-        <testcase name="parse-json2" class="xj:parse-json2"/>
         <testcase name="serialize-json" class="xj:serialize-json"/>
-        <testcase name="serialize-json2" class="xj:serialize-json2"/>
     </testsuite>
 </testsuites>
 ```
