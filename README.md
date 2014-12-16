@@ -119,7 +119,7 @@ Using xqjson:serialize-json() on this `<json>` element will return the original 
 {"firstName":"John","lastName":"Smith","isAlive":true,"age":25,"height_cm":167.6,"address":{"streetAddress":"21 2nd Street","city":"New York","state":"NY","postalCode":"10021-3100"},"phoneNumbers":[{"type":"home","number":"212 555-1234"},{"type":"office","number":"646 555-4567"}],"children":[],"spouse":null}
 ```
 
-### JSON Object with a single pair, illustrating string type
+### JSON object with a single pair, illustrating string type
 
 ```json
 {
@@ -133,7 +133,7 @@ Using xqjson:serialize-json() on this `<json>` element will return the original 
 </json>
 ```
 
-### JSON Object with multiple pairs, illustrating string, number, and boolean types
+### JSON object with multiple pairs, illustrating string, number, and boolean types
 
 ```json
 {
@@ -153,7 +153,43 @@ Using xqjson:serialize-json() on this `<json>` element will return the original 
 </json>
 ```
 
-### JSON Object with a pair whose value is another object
+### JSON array containing objects, which in turn contain pairs and arrays
+
+```json
+[
+    {
+        "label": "node1",
+        "children": [
+            "child1",
+            "child2"
+        ]
+    },
+    {
+        "label": "node2",
+        "children": ["child3"]
+    }
+]
+```
+
+```xml
+<json type="array">
+    <item type="object">
+        <pair name="label" type="string">node1</pair>
+        <pair name="children" type="array">
+            <item type="string">child1</item>
+            <item type="string">child2</item>
+        </pair>
+    </item>
+    <item type="object">
+        <pair name="label" type="string">node2</pair>
+        <pair name="children" type="array">
+            <item type="string">child3</item>
+        </pair>
+    </item>
+</json>
+```
+
+### JSON object with a pair whose value is another object
 
 ```json
 {
@@ -177,7 +213,7 @@ Using xqjson:serialize-json() on this `<json>` element will return the original 
 </json>
 ```
 
-### JSON Object with a pair whose value is an Array
+### JSON object with a pair whose value is an array of objects
 
 ```json
 {
@@ -256,9 +292,10 @@ The result should show something like:
 ```xml
 <testsuites>
     <testsuite package="http://exist-db.org/xquery/test/xqjson"
-        timestamp="2014-12-14T01:13:38.684-05:00" failures="0" pending="0" tests="2" time="PT0.03S">
-        <testcase name="parse-json" class="xj:parse-json"/>
-        <testcase name="serialize-json" class="xj:serialize-json"/>
+        timestamp="2014-12-16T01:39:11.326-05:00" failures="0" pending="0" tests="38" time="PT0.191S">
+        <testcase name="array-parse" class="xj:array-parse"/>
+        <testcase name="array-serialize" class="xj:array-serialize"/>
+        <!--more testcases...-->
     </testsuite>
 </testsuites>
 ```
