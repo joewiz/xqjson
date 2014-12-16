@@ -7,6 +7,11 @@
     <type>library</type>
     <status>stable</status>
     <changelog>
+        <change version="0.2.0">
+            <ul xmlns="http://www.w3.org/1999/xhtml">
+                <li>Fixed bugs, added a comprehensive test suite, and added examples to the README.</li>
+            </ul>
+        </change>
         <change version="0.1.6">
             <ul xmlns="http://www.w3.org/1999/xhtml">
                 <li>Fixed bugs where extra commas appeared in serialized JSON</li>
