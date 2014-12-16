@@ -41,18 +41,18 @@ function xj:serialize-json-object-two-pairs($json-xml as element(json)) {
 };
 
 
-(: Advanced - A JSON object, containing name/value pairs, arrays, and string and number types :)
+(: Advanced - A JSON object, containing the full range of name/value pairs, arrays, and string and number types :)
 
 declare
-    %test:args('{"firstName":"John","lastName":"Smith","address":{"streetAddress":"21 2nd Street","city":"New York","state":"NY","postalCode":10021},"phoneNumbers":["212 732-1234","646 123-4567"]}')
-    %test:assertEquals('<json type="object"><pair name="firstName" type="string">John</pair><pair name="lastName" type="string">Smith</pair><pair name="address" type="object"><pair name="streetAddress" type="string">21 2nd Street</pair><pair name="city" type="string">New York</pair><pair name="state" type="string">NY</pair><pair name="postalCode" type="number">10021</pair></pair><pair name="phoneNumbers" type="array"><item type="string">212 732-1234</item><item type="string">646 123-4567</item></pair></json>')
+    %test:args('{"firstName":"John","lastName":"Smith","isAlive":true,"age":25,"height_cm":167.6,"address":{"streetAddress":"21 2nd Street","city":"New York","state":"NY","postalCode":"10021-3100"},"phoneNumbers":[{"type":"home","number":"212 555-1234"},{"type":"office","number":"646 555-4567"}],"children":[],"spouse":null}')
+    %test:assertEquals('<json type="object"><pair name="firstName" type="string">John</pair><pair name="lastName" type="string">Smith</pair><pair name="isAlive" type="boolean">true</pair><pair name="age" type="number">25</pair><pair name="height_cm" type="number">167.6</pair><pair name="address" type="object"><pair name="streetAddress" type="string">21 2nd Street</pair><pair name="city" type="string">New York</pair><pair name="state" type="string">NY</pair><pair name="postalCode" type="string">10021-3100</pair></pair><pair name="phoneNumbers" type="array"><item type="object"><pair name="type" type="string">home</pair><pair name="number" type="string">212 555-1234</pair></item><item type="object"><pair name="type" type="string">office</pair><pair name="number" type="string">646 555-4567</pair></item></pair><pair name="children" type="array"/><pair name="spouse" type="null"/></json>')
 function xj:parse-json-complex($json as xs:string) {
     xqjson:parse-json($json)
 };
 
 declare
-    %test:args('<json type="object"><pair name="firstName" type="string">John</pair><pair name="lastName" type="string">Smith</pair><pair name="address" type="object"><pair name="streetAddress" type="string">21 2nd Street</pair><pair name="city" type="string">New York</pair><pair name="state" type="string">NY</pair><pair name="postalCode" type="number">10021</pair></pair><pair name="phoneNumbers" type="array"><item type="string">212 732-1234</item><item type="string">646 123-4567</item></pair></json>')
-    %test:assertEquals('{"firstName":"John","lastName":"Smith","address":{"streetAddress":"21 2nd Street","city":"New York","state":"NY","postalCode":10021},"phoneNumbers":["212 732-1234","646 123-4567"]}')
+    %test:args('<json type="object"><pair name="firstName" type="string">John</pair><pair name="lastName" type="string">Smith</pair><pair name="isAlive" type="boolean">true</pair><pair name="age" type="number">25</pair><pair name="height_cm" type="number">167.6</pair><pair name="address" type="object"><pair name="streetAddress" type="string">21 2nd Street</pair><pair name="city" type="string">New York</pair><pair name="state" type="string">NY</pair><pair name="postalCode" type="string">10021-3100</pair></pair><pair name="phoneNumbers" type="array"><item type="object"><pair name="type" type="string">home</pair><pair name="number" type="string">212 555-1234</pair></item><item type="object"><pair name="type" type="string">office</pair><pair name="number" type="string">646 555-4567</pair></item></pair><pair name="children" type="array"/><pair name="spouse" type="null"/></json>')
+    %test:assertEquals('{"firstName":"John","lastName":"Smith","isAlive":true,"age":25,"height_cm":167.6,"address":{"streetAddress":"21 2nd Street","city":"New York","state":"NY","postalCode":"10021-3100"},"phoneNumbers":[{"type":"home","number":"212 555-1234"},{"type":"office","number":"646 555-4567"}],"children":[],"spouse":null}')
 function xj:serialize-json-complex($json-xml as element(json)) {
     xqjson:serialize-json($json-xml)
 };
