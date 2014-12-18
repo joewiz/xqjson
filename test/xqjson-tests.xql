@@ -159,7 +159,7 @@ declare
     %test:args('{"char test":"\"\\\n\tA"}')
     %test:assertEquals('<json type="object"><pair name="char test" type="string">"\
 	A</pair></json>')
-	function xj:special-characters-parse($json as xs:string) {
+function xj:special-characters-parse($json as xs:string) {
     xqjson:parse-json($json)
 };
 
@@ -167,7 +167,7 @@ declare
     %test:args('<json type="object"><pair name="char test" type="string">"\
 	A</pair></json>')
     %test:assertEquals('{"char test":"\"\\\n\tA"}')
-	function xj:special-characters-serialize($json-xml as element(json)) {
+function xj:special-characters-serialize($json-xml as element(json)) {
     xqjson:serialize-json($json-xml)
 };
 
