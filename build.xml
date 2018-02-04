@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="xar" name="xqjson" xmlns:xdb="http://exist-db.org/ant">
     <property name="project.name" value="xqjson"/>
-    <property name="project.version" value="0.2.0"/>
+    <property name="project.version" value="0.2.1"/>
     <property name="package.name" value="http://xqilla.sourceforge.net/pkg/xqjson"/>
     <property name="build.dir" value="build"/>
     <property name="test.dir" value="test"/>

@@ -7,6 +7,11 @@
     <type>library</type>
     <status>stable</status>
     <changelog>
+        <change version="0.2.1">
+            <ul xmlns="http://www.w3.org/1999/xhtml">
+                <li>With <a href="https://www.w3.org/TR/xpath-functions-31/#json">XQuery 3.1's robust native support of JSON parsing and serialization</a> and eXist 3.0's support of XQuery 3.1, this package is no longer being maintained. Please upgrade to eXist 3.x and migrate your code to use XQuery 3.1 instead of this package.</li>
+            </ul>
+        </change>
         <change version="0.2.0">
             <ul xmlns="http://www.w3.org/1999/xhtml">
                 <li>Fixed bugs, added a comprehensive test suite, and added examples to the README.</li>
