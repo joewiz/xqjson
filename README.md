@@ -1,4 +1,4 @@
-> With [XQuery 3.1's support of JSON parsing and serialization](https://www.w3.org/TR/xpath-functions-31/#json), this package is no longer being maintained. You are strongly encouraged to migrate your code to XQuery 3.1.
+> With [XQuery 3.1's support of JSON parsing and serialization](https://www.w3.org/TR/xpath-functions-31/#json), this package is no longer being maintained. You are strongly encouraged to migrate your code to XQuery 3.1. (For eXist users, an implementation of the `fn:json-to-xml` and `fn:xml-to-json` functions, see https://gist.github.com/joewiz/d986da715facaad633db.)
 
 # Parsing JSON into XQuery
 
